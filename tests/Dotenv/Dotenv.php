@@ -2,15 +2,11 @@
 class DotenvTest extends \PHPUnit_Framework_TestCase
 {
 
-	/*
-	public function testDotenvLoadsEnvironmentVars()
+
+	public function testDotenvBasic()
     {
-        Dotenv::load(dirname(__DIR__) . '/fixtures');
-        $this->assertEquals('bar', getenv('FOO'));
-        $this->assertEquals('baz', getenv('BAR'));
-        $this->assertEquals('with spaces', getenv('SPACED'));
-        $this->assertEquals('', getenv('NULL'));
+       echo 'success full testing initialized';
     }
-	*/
+
 
 }
