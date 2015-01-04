@@ -1,5 +1,5 @@
 {
-    "name": "MattivdWeem/phpdotenv",
+    "name": "mattivdweem/phpdotenv",
     "type": "library",
     "description": "Library to load in dotenv files",
     "keywords": ["env", "dotenv", "environment"],
