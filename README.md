@@ -1,4 +1,4 @@
 phpdotenv
 =========
 
-PHP class to read envoirment variables
+PHP library to read envoirment variables
