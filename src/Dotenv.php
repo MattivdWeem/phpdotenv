@@ -13,6 +13,18 @@ class Dotenv{
 
 
 	/**
+	 * Required items that should be matched
+	 * @var array
+	 */
+	protected static $required = array();
+
+	/**
+	 * temp stack to be hold for fast acces
+	 * @var array
+	 */
+	protected static $stack = array();
+
+	/**
 	 * Ammount of levels to scope 0 = infinite
 	 * @var int
 	 */
@@ -70,6 +82,7 @@ class Dotenv{
 			foreach($data as $key => $value):
 				if(static::$overwrite || empty($_ENV[$key])):
 					$_ENV[$key] = $value;
+					static::$stack[$key] = $value;
 				endif;
 			endforeach;
 
@@ -151,5 +164,72 @@ class Dotenv{
 		static::$overwrite = $setOverwrite;
 		return $this;
 	}
+
+	/*
+	 *  Add file type to the stack
+	 *  @param type string / array of strings
+	 */
+
+	public function addFileType($type){
+		if(is_array($type)):
+			foreach($type as $typeString):
+				static::$fileTypes[] = $typeString;
+			endforeach;
+		else:
+			static::$fileTypes[] = $type;
+		endif;
+		return $this;
+	}
+
+	/*
+	 * In case you want to use all the components instead of hand filling them in
+	 * this function will also remove previous entered components
+	 */
+	public function useComponents(){
+		static::$fileTypes = array();
+		$components = glob(__DIR__.'/components/*{.php}', GLOB_BRACE);
+		foreach($components as $component):
+			static::$fileTypes[] =  str_replace('.php','',basename($component));
+		endforeach;
+		return $this;
+	}
+
+	/*
+	 * Add an rquired item to the required stack
+	 * @param string
+	 */
+	public function addRequired($required){
+		if(is_array($required)):
+			foreach($required as $requiredString):
+				static::$required[] = $requiredString;
+			endforeach;
+		else:
+			static::$required[] = $required;
+		endif;
+		return $this;
+	}
+	/*
+	 * Check if all required items are set (if not trow error)
+	 */
+	public function checkRequired(){
+		try {
+			foreach(static::$required as $required):
+				if(!isset(static::$stack[$required])):
+					throw new Exception('Not all required items are set: '. $required.' missing.');
+				endif;
+			endforeach;
+		} catch (Exception $e) {
+			echo($e->getMessage());
+		}
+		return $this;
+	}
+
+	/*
+	 * End of script destruction
+	 * Check if the required stack exists
+	 */
+	function __destruct() {
+		$this->checkRequired();
+   	}
 }
 

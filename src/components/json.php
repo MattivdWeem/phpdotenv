@@ -1,5 +1,10 @@
 <?php
-
+/*
+ * Part of PHPDotenv
+ * Reads json and decodes it to an php array
+ *
+ * (yes lots of fancy code here)
+ */
 class json{
 
 	/*
