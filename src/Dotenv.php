@@ -1,15 +1,14 @@
 <?php
 
-
 class Dotenv{
 
- 	/**
+	/**
 	 * The file types the library opens to check contents
 	 * @var array
 	 */
 	protected static $fileTypes = array(
-		'.env',
-		'.json'
+		'env',
+		'json'
 	);
 
 
@@ -18,6 +17,7 @@ class Dotenv{
 	 * @var int
 	 */
 	protected static $scope = 3;
+
 
 	/**
 	 *
@@ -36,21 +36,50 @@ class Dotenv{
 			$limit = $scopes < static::$scope;
 		endif;
 
-		if($type === '@' && $limit):
-			$scopes++;
-			foreach(glob($path.'/*') as $file):
-				$this->load($file, $scopes);
-			endforeach;
+		if($type === '@'):
+			if($limit):
+				$scopes++;
+				foreach(glob($path.'/*') as $file):
+					$this->load($file, $scopes);
+				endforeach;
+			endif;
+		elseif(intval($type) < count(static::$fileTypes)):
+			$this->push($this->readFile($path, $type));
+		else:
+
 		endif;
 
-		echo $this->fileType($path."\n");
+
 		return $this;
 
 	}
 
-	public function readFile($path){
-
+	/**
+	 * Pushes data in the super globals and localized globals
+	 * @param data
+	 *
+	 */
+	public function push($data){
+		print_r($data);
 	}
+
+	/**
+	 * Reads the file and get the content into an array
+	 * @param path
+	 * @param type
+	 * @return array
+	 *
+	 */
+	public function readFile($path,$type){
+		$contents = file_get_contents($path);
+
+		require_once('components/'.static::$fileTypes[$type].'.php');
+		$read = new static::$fileTypes[$type];
+		$contents = $read->toArray($contents);
+
+		return $contents;
+	}
+
 
 	/**
 	 *
@@ -63,19 +92,29 @@ class Dotenv{
 	 *
 	 */
 	public static function fileType($path){
-		if(is_dir($path)):
-			return '@';
-		endif;
+		try {
+			if(is_dir($path)):
+				return '@';
+			endif;
 
-		$extension = '.'.pathinfo($path, PATHINFO_EXTENSION);
-		$fileTypes = static::$fileTypes;
-		if(in_array($extension, $fileTypes)):
-			foreach($fileTypes as $key => $value):
-				if($extension == $value):
-					return $key;
+			if(is_file($path)):
+				$extension = pathinfo($path, PATHINFO_EXTENSION);
+				$fileTypes = static::$fileTypes;
+				if(in_array($extension, $fileTypes)):
+					foreach($fileTypes as $key => $value):
+						if($extension == $value):
+							return $key;
+						endif;
+					endforeach;
 				endif;
-			endforeach;
-		endif;
+					throw new Exception('Given path "'.$path.'"  extension "'.$extension.'" does not match fileType array');
+			endif;
+			throw new Exception('Given path "'.$path.'" is no file or folder.');
+
+		} catch (Exception $e) {
+			echo($e->getMessage());
+		}
+		return false;
 
 	}
 
