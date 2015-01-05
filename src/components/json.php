@@ -2,11 +2,13 @@
 
 class json{
 
+	/*
+	 * Default function to boot, this function should return an array of data
+	 * @param string
+	 * @return array
+	 */
 	public function toArray($json){
-
-		// convert json data to an array
-		return json_decode($json);
-
+		return json_decode($json, true);
 	}
 
 

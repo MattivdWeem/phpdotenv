@@ -20,6 +20,12 @@ class Dotenv{
 
 
 	/**
+	 * let the library change your current envi vars
+	 * @var int
+	 */
+	protected static $overwrite = true;
+
+	/**
 	 *
 	 * load the given file in to the system
 	 * @param path
@@ -60,7 +66,14 @@ class Dotenv{
 	 *
 	 */
 	public function push($data){
-		print_r($data);
+		if(is_array($data) && !empty($data)):
+			foreach($data as $key => $value):
+				if(static::$overwrite || empty($_ENV[$key])):
+					$_ENV[$key] = $value;
+				endif;
+			endforeach;
+
+		endif;
 	}
 
 	/**
@@ -87,7 +100,7 @@ class Dotenv{
 	 *
 	 *
 	 * @param $path
-	 * @throws \RuntimeException
+	 * @throws Exception
 	 * @return int
 	 *
 	 */
@@ -119,7 +132,6 @@ class Dotenv{
 	}
 
 
-
 	/**
 	 * set scoping level
 	 * @param int
@@ -127,6 +139,16 @@ class Dotenv{
 	 */
  	public function setScope($setScope){
 		static::$scope = $setScope;
+		return $this;
+	}
+
+	/**
+	 * set overwriting
+	 * @param int
+	 * @return this
+	 */
+ 	public function setOverwrite($setOverwrite){
+		static::$overwrite = $setOverwrite;
 		return $this;
 	}
 }
