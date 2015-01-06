@@ -107,11 +107,11 @@ class Dotenv{
 	/*
 	 * Require an class
 	 */
-	 private function load_class($class) {
-		 if( !class_exists($class, false) ) {
-			  $class_file = 'components/' . $class . '.php';
+	 private function loadClass($class) {
+		 if( !class_exists($class, false) ):
+			  $class_file = 'components/'.$class.'.php';
 			  require_once($class_file);
-		 }
+		 endif;
 	 }
 
 
