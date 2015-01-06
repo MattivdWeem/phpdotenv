@@ -124,7 +124,7 @@ class Dotenv{
 	 */
 	public function readFile($path,$type){
 		$contents = file_get_contents($path);
-		$this->load_class(static::$fileTypes[$type]);
+		$this->loadClass(static::$fileTypes[$type]);
 		$read = new static::$fileTypes[$type];
 		$contents = $read->toArray($contents);
 
