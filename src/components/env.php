@@ -29,7 +29,7 @@ class env{
 	 * @return array
 	 */
 	public function toArray($contents){
-		static::$contents = split("\n", $contents);
+		static::$contents = explode("\n", $contents);
 		$this::loop();
 		return static::$contents;
 	}
@@ -41,10 +41,10 @@ class env{
 	 */
 	public function loop(){
 		foreach(static::$contents as $key => $line):
-			$this ->cleanComments($line,$key)->removeStack();
+			$this->cleanComments($line,$key)->removeStack();
 		endforeach;
 		foreach(static::$contents as $key => $line):
-			$this ->keyVal($line,$key)->removeStack();
+			$this->keyVal($line,$key)->removeStack();
 		endforeach;
 	}
 

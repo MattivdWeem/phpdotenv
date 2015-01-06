@@ -2,13 +2,14 @@
     "name": "mattivdweem/phpdotenv",
     "type": "library",
     "description": "Library to load in dotenv files",
-    "keywords": ["env", "dotenv", "environment"],
+    "keywords": ["env", "dotenv", "environment","global"],
     "homepage": "http://github.com/mattivdweem/phpdotenv",
-    "license" : "BSD",
+    "license" : "BSD-3-Clause",
     "authors" : [
         {
             "name": "Matti van de Weem",
             "email": "matti@hatmedia.nl",
+			"role": "Developer",
             "homepage": "http://www.mattivandeweem.nl"
         }
     ],
@@ -23,7 +24,6 @@
 		"psr-0": {
             "Dotenv": "src/"
         }
-
     },
     "extra": {
         "branch-alias": {

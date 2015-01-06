@@ -1,6 +1,14 @@
 <?php
-
+/*
+ * PHP Dot Env
+ *
+ * Reads envoirmental variables
+ * for licensing read the LICENSE FILE
+ * @author matti van de weem <mvdweem@gmail.com>
+ *
+ */
 class Dotenv{
+
 
 	/**
 	 * The file types the library opens to check contents
@@ -18,11 +26,13 @@ class Dotenv{
 	 */
 	protected static $required = array();
 
+
 	/**
 	 * temp stack to be hold for fast acces
 	 * @var array
 	 */
 	protected static $stack = array();
+
 
 	/**
 	 * Ammount of levels to scope 0 = infinite
@@ -37,40 +47,44 @@ class Dotenv{
 	 */
 	protected static $overwrite = true;
 
+
 	/**
 	 *
 	 * load the given file in to the system
 	 * @param path
+	 * @throws exception
 	 * @param scopes
 	 * @return this
 	 *
 	 */
 	public function load($path,$scopes = 0){
-
-		$type = $this->fileType($path);
-		if(static::$scope === 0):
-			$limit = true;
-		else:
-			$limit = $scopes < static::$scope;
-		endif;
-
-		if($type === '@'):
-			if($limit):
-				$scopes++;
-				foreach(glob($path.'/*') as $file):
-					$this->load($file, $scopes);
-				endforeach;
+		try {
+			$type = $this->fileType($path);
+			if(static::$scope === 0):
+				$limit = true;
+			else:
+				$limit = $scopes < static::$scope;
 			endif;
-		elseif(intval($type) < count(static::$fileTypes)):
-			$this->push($this->readFile($path, $type));
-		else:
 
-		endif;
-
-
+			if($type === '@'):
+				if($limit):
+					$scopes++;
+					foreach(glob($path.'/*') as $file):
+						$this->load($file, $scopes);
+					endforeach;
+				endif;
+			elseif(intval($type) < count(static::$fileTypes)):
+				$this->push($this->readFile($path, $type));
+			else:
+				throw new Exception('File type "'.$type.'" does not match any patern');
+			endif;
+		} catch (Exception $e) {
+			echo($e->getMessage());
+		}
 		return $this;
 
 	}
+
 
 	/**
 	 * Pushes data in the super globals and localized globals
@@ -89,6 +103,18 @@ class Dotenv{
 		endif;
 	}
 
+
+	/*
+	 * Require an class
+	 */
+	 private function load_class($class) {
+		 if( !class_exists($class, false) ) {
+			  $class_file = 'components/' . $class . '.php';
+			  require_once($class_file);
+		 }
+	 }
+
+
 	/**
 	 * Reads the file and get the content into an array
 	 * @param path
@@ -98,8 +124,7 @@ class Dotenv{
 	 */
 	public function readFile($path,$type){
 		$contents = file_get_contents($path);
-
-		require_once('components/'.static::$fileTypes[$type].'.php');
+		$this->load_class(static::$fileTypes[$type]);
 		$read = new static::$fileTypes[$type];
 		$contents = $read->toArray($contents);
 
@@ -155,6 +180,7 @@ class Dotenv{
 		return $this;
 	}
 
+
 	/**
 	 * set overwriting
 	 * @param int
@@ -165,11 +191,11 @@ class Dotenv{
 		return $this;
 	}
 
+
 	/*
 	 *  Add file type to the stack
 	 *  @param type string / array of strings
 	 */
-
 	public function addFileType($type){
 		if(is_array($type)):
 			foreach($type as $typeString):
@@ -180,6 +206,7 @@ class Dotenv{
 		endif;
 		return $this;
 	}
+
 
 	/*
 	 * In case you want to use all the components instead of hand filling them in
@@ -193,6 +220,7 @@ class Dotenv{
 		endforeach;
 		return $this;
 	}
+
 
 	/*
 	 * Add an rquired item to the required stack
@@ -208,6 +236,8 @@ class Dotenv{
 		endif;
 		return $this;
 	}
+
+
 	/*
 	 * Check if all required items are set (if not trow error)
 	 */
@@ -223,6 +253,7 @@ class Dotenv{
 		}
 		return $this;
 	}
+
 
 	/*
 	 * End of script destruction
