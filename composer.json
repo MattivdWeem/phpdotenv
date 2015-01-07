@@ -1,7 +1,6 @@
 {
     "name": "mattivdweem/phpdotenv",
     "type": "library",
-	"version": "1.1.0",
     "description": "Library to load in dotenv files",
     "keywords": ["env", "dotenv", "environment","global"],
     "homepage": "http://github.com/mattivdweem/phpdotenv",
