@@ -3,8 +3,17 @@
  * PHP Dot Env
  *
  * Reads envoirmental variables
- * for licensing read the LICENSE FILE
- * @author matti van de weem <mvdweem@gmail.com>
+ * The library makes you able to read envoirment folders and files, these can be a variaty of extensions.
+ * For the full documentation read the included README.md if this was not included chec kthe official repo
+ *
+ *
+ * For the license read the LICENCE file that is include with the package.
+ * If the LICENSE is not included you can find it at the github repo mattivdweem/phpdotenv
+ *
+ *
+ * @repo 	MattivdWeem/phpdotenv
+ * @package mattivdweem/phpdotenv
+ * @author 	matti van de weem <mvdweem@gmail.com>
  *
  */
 class Dotenv{
@@ -52,14 +61,15 @@ class Dotenv{
 	 *
 	 * load the given file in to the system
 	 * @param path
-	 * @throws exception
 	 * @param scopes
+	 * @throws exception
 	 * @return this
 	 *
 	 */
 	public function load($path,$scopes = 0){
 		try {
 			$type = $this->fileType($path);
+
 			if(static::$scope === 0):
 				$limit = true;
 			else:
@@ -82,14 +92,13 @@ class Dotenv{
 			echo($e->getMessage());
 		}
 		return $this;
-
 	}
 
 
 	/**
 	 * Pushes data in the super globals and localized globals
 	 * @param data
-	 *
+	 * @return this
 	 */
 	public function push($data){
 		if(is_array($data) && !empty($data)):
@@ -99,8 +108,8 @@ class Dotenv{
 					static::$stack[$key] = $value;
 				endif;
 			endforeach;
-
 		endif;
+		return $this;
 	}
 
 
@@ -166,7 +175,6 @@ class Dotenv{
 			echo($e->getMessage());
 		}
 		return false;
-
 	}
 
 
@@ -211,12 +219,16 @@ class Dotenv{
 	/*
 	 * In case you want to use all the components instead of hand filling them in
 	 * this function will also remove previous entered components
+	 *
+	 * @param bool flush if flush is true the current cfiletypes will be removed from the stack
 	 */
-	public function useComponents(){
-		static::$fileTypes = array();
+	public function useComponents($flush = true){
+		if($flush):
+			static::$fileTypes = array();
+		endif;
 		$components = glob(__DIR__.'/components/*{.php}', GLOB_BRACE);
 		foreach($components as $component):
-			static::$fileTypes[] =  str_replace('.php','',basename($component));
+			static::$fileTypes[] = str_replace('.php','',basename($component));
 		endforeach;
 		return $this;
 	}
@@ -224,7 +236,7 @@ class Dotenv{
 
 	/*
 	 * Add an rquired item to the required stack
-	 * @param string
+	 * @param string / array of strings
 	 */
 	public function addRequired($required){
 		if(is_array($required)):
@@ -263,4 +275,3 @@ class Dotenv{
 		$this->checkRequired();
    	}
 }
-
