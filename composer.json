@@ -1,6 +1,7 @@
 {
     "name": "mattivdweem/phpdotenv",
     "type": "library",
+	"version": "1.1.0",
     "description": "Library to load in dotenv files",
     "keywords": ["env", "dotenv", "environment","global"],
     "homepage": "http://github.com/mattivdweem/phpdotenv",
@@ -24,10 +25,9 @@
             "Dotenv": "src/"
         }
     },
-	"minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.2-dev"
+            "dev-master": "1.1.0-dev"
         }
     }
 }
