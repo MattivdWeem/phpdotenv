@@ -277,19 +277,6 @@ class Dotenv{
 		return $this;
 	}
 
-	/*
-	 * Manipulate the current stack by adding stack items
-	 * @param array or multidimensional array
-	 * @return $this
-	 */
-	public function addStack($item){
-		if(is_array($item[0])):
-			static::$stack += $item;
-		elseif(isset($item[1])):
-			static::stack[$item[0]] = $item[1];
-		endif;
-		return $this;
-	}
 
 	/*
 	 * End of script destruction
