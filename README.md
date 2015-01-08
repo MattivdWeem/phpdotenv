@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/MattivdWeem/phpdotenv.svg?branch=master)](https://travis-ci.org/MattivdWeem/phpdotenv)
-[![Latest Stable Version](https://poser.pugx.org/mattivdweem/phpdotenv/v/stable.svg)](https://packagist.org/packages/mattivdweem/phpdotenv) [![Total Downloads](https://poser.pugx.org/mattivdweem/phpdotenv/downloads.svg)](https://packagist.org/packages/mattivdweem/phpdotenv) [![Latest Unstable Version](https://poser.pugx.org/mattivdweem/phpdotenv/v/unstable.svg)](https://packagist.org/packages/mattivdweem/phpdotenv) [![License](https://poser.pugx.org/mattivdweem/phpdotenv/license.svg)](https://packagist.org/packages/mattivdweem/phpdotenv)
+[![Build Status](https://travis-ci.org/MattivdWeem/phpdotenv.svg?branch=master)](https://travis-ci.org/MattivdWeem/phpdotenv)[![Latest Stable Version](https://poser.pugx.org/mattivdweem/phpdotenv/v/stable.svg)](https://packagist.org/packages/mattivdweem/phpdotenv) [![Total Downloads](https://poser.pugx.org/mattivdweem/phpdotenv/downloads.svg)](https://packagist.org/packages/mattivdweem/phpdotenv) [![Latest Unstable Version](https://poser.pugx.org/mattivdweem/phpdotenv/v/unstable.svg)](https://packagist.org/packages/mattivdweem/phpdotenv) [![License](https://poser.pugx.org/mattivdweem/phpdotenv/license.svg)](https://packagist.org/packages/mattivdweem/phpdotenv)[![SensioLabsInsight](https://insight.sensiolabs.com/projects/6d9e0cb2-933e-4d34-bc8c-257bd81fb81d/mini.png)](https://insight.sensiolabs.com/projects/6d9e0cb2-933e-4d34-bc8c-257bd81fb81d)
 
 PHP dot env
 =========
@@ -16,7 +15,7 @@ Well yea thats true, but this version works a bit different; We use an envoirmen
 #### How to use it?
 Prefered method: Composer:
 
-	require: "mattivdweem/phpdotenv": "0.1.*@dev"
+	require: "mattivdweem/phpdotenv": "1.1.3*@dev"
 
 Optional method: clone or download the src folder and include it
 

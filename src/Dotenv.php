@@ -167,7 +167,7 @@ class Dotenv{
 						endif;
 					endforeach;
 				endif;
-					throw new Exception('Given path "'.$path.'"  extension "'.$extension.'" does not match fileType array');
+					throw new Exception('Given path "'.$path.'" extension "'.$extension.'" does not match fileType array');
 			endif;
 			throw new Exception('Given path "'.$path.'" is no file or folder.');
 
@@ -252,6 +252,7 @@ class Dotenv{
 
 	/*
 	 * Check if all required items are set (if not trow error)
+	 * @return $this;
 	 */
 	public function checkRequired(){
 		try {
@@ -268,10 +269,33 @@ class Dotenv{
 
 
 	/*
+	 * Clears the current stack
+	 * @return $this
+	 */
+	public function clearStack(){
+		static::$stack = array();
+		return $this;
+	}
+
+	/*
+	 * Manipulate the current stack by adding stack items
+	 * @param array or multidimensional array
+	 * @return $this
+	 */
+	public function addStack($item){
+		if(is_array($item[0])):
+			static::$stack += $item;
+		elseif(isset($item[1])):
+			static::stack[$item[0]] = $item[1];
+		endif;
+		return $this;
+	}
+
+	/*
 	 * End of script destruction
 	 * Check if the required stack exists
 	 */
-	function __destruct() {
+	public function __destruct() {
 		$this->checkRequired();
    	}
 }
