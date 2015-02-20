@@ -111,7 +111,7 @@ class Dotenv{
 		endif;
 		return $this;
 	}
-
+	
 
 	/*
 	 * Require an class
@@ -258,7 +258,7 @@ class Dotenv{
 		try {
 			foreach(static::$required as $required):
 				if(!isset(static::$stack[$required])):
-					throw new Exception('Not all required items are set: '. $required.' missing.');
+					throw new Exception('Not all required items are met: '. $required.' is missing.');
 				endif;
 			endforeach;
 		} catch (Exception $e) {
